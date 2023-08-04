@@ -18,7 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<Product>>> GetProducts(ProductParams productParams)
+        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery]ProductParams productParams)
         {
             // NOTE AFTER THE COURSE: CHECK REPOSITORY PATTERN
             var query = _context.Products
@@ -27,9 +27,9 @@ namespace API.Controllers
                 .Filter(productParams.Brands, productParams.Types)
                 .AsQueryable();
 
-            var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageNumber);
+            var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageSize);
 
-            Response.Headers.Add("Pagination", JsonSerializer.Serialize(products.MetaData));
+            Response.AddPaginationHeader(products.MetaData);
 
             return products;
 
@@ -43,6 +43,15 @@ namespace API.Controllers
             if (product == null) return NotFound();
 
             return product;
+        }
+
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
+            var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
+
+            return Ok(new {brands, types});
         }
     }
 }
