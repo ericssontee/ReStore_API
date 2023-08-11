@@ -1,7 +1,11 @@
 dotnet run --> To run the app
 dotnet watch --> to run the app with watch so you don't have to restart the app every update
-dotnet watch --not-hot-reload --> Same as dotnet watch but without the hot-reload function so you don't have to restart the app every update
+dotnet watch --no-hot-reload --> Same as dotnet watch but without the hot-reload function so you don't have to restart the app every update
 dotnet new -l --> dotnet new list commands
 dotnet new gitignore --> creates a new gitignore file
 
 dotnet ef migrations add IdentityAdded --> EF to add new Identities
+
+dotnet ef migrations add OrderEntityAdded -o Data/Migrations
+
+dotnet ef database drop --> drop db

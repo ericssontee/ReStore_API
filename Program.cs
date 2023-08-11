@@ -8,6 +8,7 @@ using ReStore_API.Middleware;
 using ReStore_API.Services;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using API.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +53,7 @@ builder.Services.AddIdentityCore<User>(opt =>
     //https://github.com/dotnet/aspnetcore/issues/24369 --> There's already 2 emails used before enabling opt.User.RequireUniqueEmail. This leads to error 500.
     opt.User.RequireUniqueEmail = true;
 })
-    .AddRoles<IdentityRole>()
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(opt =>
