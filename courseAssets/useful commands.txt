@@ -9,3 +9,6 @@ dotnet ef migrations add IdentityAdded --> EF to add new Identities
 dotnet ef migrations add OrderEntityAdded -o Data/Migrations
 
 dotnet ef database drop --> drop db
+
+
+https://json2ts.vercel.app/ --> convert json to ts interface
