@@ -6,23 +6,26 @@ namespace API.Entities
         public string BuyerId { get; set; }
         public List<BasketItem> Items { get; set; } = new();
 
+        public string PaymentIntentId { get; set; }
+        public string ClientSecret { get; set; }
+
         public void AddItem(Product product, int quantity)
         {
             if (Items.All(item => item.ProductId != product.Id))
             {
-                Items.Add(new BasketItem{Product = product, Quantity = quantity});
+                Items.Add(new BasketItem { Product = product, Quantity = quantity });
             }
 
             var existingItem = Items.FirstOrDefault(item => item.ProductId == product.Id);
-            if(existingItem != null) existingItem.Quantity += quantity;
+            if (existingItem != null) existingItem.Quantity += quantity;
         }
 
         public void RemoveItem(int productId, int quantity)
         {
             var item = Items.FirstOrDefault(item => item.ProductId == productId);
-            if(item == null) return;
+            if (item == null) return;
             item.Quantity -= quantity;
-            if(item.Quantity == 0) Items.Remove(item);
+            if (item.Quantity == 0) Items.Remove(item);
         }
     }
 }
