@@ -42,11 +42,11 @@ builder.Services.AddSwaggerGen(c =>
         {
             jwtSecurityScheme, Array.Empty<string>()
         }
-    });
+    });                           
 });
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors(); // Need to add this for CORS issue.
 builder.Services.AddIdentityCore<User>(opt =>
@@ -87,6 +87,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 // Need to add this for CORS issue.
 app.UseCors(opt =>
 {
@@ -99,6 +102,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToController("Index", "Fallback");
 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
