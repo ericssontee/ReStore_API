@@ -12,3 +12,5 @@ dotnet ef database drop --> drop db
 
 
 https://json2ts.vercel.app/ --> convert json to ts interface
+
+fly launch --image etee96/restore:latest
